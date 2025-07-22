@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>хичээл 1</title>
+     <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <!-- Auth logic -->
+  <script src="../auth.js"></script>
+</head>
+<body>
+    <h1>Хичээл 1: Англи үгс <style>h1 { color: #0cc486; }</style></h1>
+    <p style="font-size: 1.22em; color: #1b5e20; background: linear-gradient(90deg, #c8e6c9 60%, #a5d6a7 100%); padding: 16px 24px; border-radius: 14px; box-shadow: 0 2px 10px rgba(56,142,60,0.12); margin-bottom: 22px; font-weight: bold; letter-spacing: 0.5px;">
+        Стандарт үгсийг ашиглан яриа өрнүүлэхэд тань туслах болно.
+    </p>
+    <table style="width:100%; border-collapse: collapse; margin: 18px 0;">
+        <thead>
+            <tr style="background: #e0f7fa;">
+                <th style="padding: 8px; border: 1px solid #b2dfdb;">Монгол</th>
+                <th style="padding: 8px; border: 1px solid #b2dfdb;">Англи</th>
+                <th style="padding: 8px; border: 1px solid #b2dfdb;">Дуудах</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Тавтай морил</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Welcome</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Welcome')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr style="background: #f1f8e9;">
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Ямархуу байна?</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">How are you?</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('How are you?')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">хичээл</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Lesson</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Lesson')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr style="background: #f1f8e9;">
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">сурах</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Learn</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Learn')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">хэл</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Language</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Language')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr style="background: #f1f8e9;">
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Англи</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">English</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('English')">🔊 Voice</button>
+                </td>
+            </tr></td></tr>
+        </tbody>
+    </table>
+    <div class="responsive-section"></div>
+        <h2 class="responsive-title">Үгсийг өгүүлбэрт хэрэглэх жишээ</h2>
+        <ul class="responsive-list">
+            <li class="responsive-list-item">
+                <div>
+                    <strong class="responsive-strong">Hello!</strong> How are you? <span class="responsive-translation">— <em>Сайн уу! Сайн байцгаана уу?</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('Hello! How are you?')">🔊 Voice</button>
+            </li>
+            <li class="responsive-list-item alt">
+                <div>
+                    <strong class="responsive-strong">Thank you</strong> for your help. <span class="responsive-translation">— <em>Тусалсанд баярлалаа.</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('Thank you for your help.')">🔊 Voice</button>
+            </li>
+            <li class="responsive-list-item">
+                <div>
+                    <strong class="responsive-strong">Welcome</strong> to our lesson. <span class="responsive-translation">— <em>Манай хичээлд тавтай морил.</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('Welcome to our lesson.')">🔊 Voice</button>
+            </li>
+            <li class="responsive-list-item alt">
+                <div>
+                    I want to <strong class="responsive-strong">learn</strong> English. <span class="responsive-translation">— <em>Би англи хэл сурахыг хүсэж байна.</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('I want to learn English.')">🔊 Voice</button>
+            </li>
+        </ul>
+        <p class="responsive-note">Үгсийг өгүүлбэрт оруулахдаа тухайн нөхцөл, харилцан ярианы утга, хэрэглээний орчинд тохируулан ашиглана.</p>
+        <h2 class="responsive-title">Дасгал</h2>
+        <form id="exerciseForm" class="responsive-form">
+            <ol class="responsive-ol">
+                <li class="responsive-li">
+                    <span class="responsive-label">Дараах өгүүлбэрийг англиар орчуулна уу:</span><br>
+                    <em class="responsive-em">Тавтай морил! Та англи хэл сурах уу?</em><br>
+                    <input type="text" name="q1" class="responsive-input">
+                </li>
+                <li class="responsive-li">
+                    <span class="responsive-label">“Thank you” үгийг өөрийн өгүүлбэрт ашигла.</span><br>
+                    <input type="text" name="q2" class="responsive-input">
+                </li>
+                <li class="responsive-li">
+                    <span class="responsive-label">“Learn” болон “lesson” үгсийг нэг өгүүлбэрт оруул.</span><br>
+                    <input type="text" name="q3" class="responsive-input">
+                </li>
+            </ol>
+            <button type="submit" class="responsive-submit-btn"
+                onmouseover="this.style.background='linear-gradient(90deg,#388e3c 60%,#66bb6a 100%)'; this.style.boxShadow='0 4px 14px rgba(67,160,71,0.18)';"
+                onmouseout="this.style.background='linear-gradient(90deg,#0cc486 60%,#43a047 100%)'; this.style.boxShadow='0 2px 8px rgba(12,196,134,0.12)';"
+            >Шалгах</button>
+            <div id="exerciseResult" class="responsive-result"></div>
+        </form>
+    </div>
+    <style>
+    /* Responsive styles for PC and mobile */
+    .responsive-section {
+        margin-top: 36px;
+        margin-bottom: 18px;
+        padding: 0 16px;
+        max-width: 1200px; /* PC дээр сунахаар болголоо */
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+    .responsive-title {
+        color: #388e3c;
+        font-size: 1.35em;
+        letter-spacing: 0.5px;
+        border-left: 6px solid #0cc486;
+        padding-left: 12px;
+        background: linear-gradient(90deg, #e0f7fa 60%, #c8e6c9 100%);
+        border-radius: 8px;
+        margin-bottom: 18px;
+        margin-top: 0;
+    }
+    .responsive-list {
+        font-size: 1.18em;
+        line-height: 1.8;
+        padding-left: 0;
+        list-style: none;
+        max-width: 1000px; /* PC дээр сунахаар болголоо */
+        width: 100%;
+        margin: 0 auto;
+    }
+    .responsive-list-item {
+        margin-bottom: 22px;
+        background: linear-gradient(90deg, #e0f7fa 60%, #c8e6c9 100%);
+        border-radius: 14px;
+        padding: 18px 24px;
+        box-shadow: 0 2px 10px rgba(56,142,60,0.10);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .responsive-list-item.alt {
+        background: linear-gradient(90deg, #f1f8e9 60%, #c8e6c9 100%);
+    }
+    .responsive-strong {
+        color: #0cc486;
+    }
+    .responsive-translation {
+        color: #388e3c;
+    }
+    .responsive-voice-btn {
+        font-size: 1em;
+        padding: 8px 22px;
+        border-radius: 24px;
+        background: #0cc486;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        margin-left: auto;
+        box-shadow: 0 1px 6px rgba(12,196,134,0.10);
+        transition: background 0.2s;
+    }
+    .responsive-note {
+        margin-top: 12px;
+    }
+    .responsive-form {
+        margin-bottom: 32px;
+        background: linear-gradient(90deg, #e0f7fa 60%, #c8e6c9 100%);
+        padding: 28px 32px;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(56,142,60,0.10);
+        max-width: 900px; /* PC дээр сунахаар болголоо */
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+    .responsive-ol {
+        padding-left: 20px;
+    }
+    .responsive-li {
+        margin-bottom: 22px;
+    }
+    .responsive-label {
+        font-weight: 500;
+        color: #388e3c;
+    }
+    .responsive-em {
+        color: #0cc486;
+    }
+    .responsive-input {
+        margin-top:10px;
+        width: 96%;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #b2dfdb;
+        font-size: 1.08em;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(56,142,60,0.06);
+    }
+    .responsive-submit-btn {
+        margin-top: 18px;
+        background: linear-gradient(90deg, #0cc486 60%, #43a047 100%);
+        color: #fff;
+        border: none;
+        border-radius: 24px;
+        padding: 12px 32px;
+        cursor: pointer;
+        font-size: 1.08em;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(12,196,134,0.12);
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+    .responsive-result {
+        margin-top: 22px;
+        font-weight: bold;
+        font-size: 1.08em;
+        color: #388e3c;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 600px) {
+        .responsive-section {
+            padding: 0 4px;
+            max-width: 100%;
+        }
+        .responsive-title {
+            font-size: 1.08em;
+            padding-left: 7px;
+            border-left-width: 4px;
+            margin-bottom: 12px;
+        }
+        .responsive-list {
+            font-size: 1em;
+            max-width: 100%;
+        }
+        .responsive-list-item,
+        .responsive-list-item.alt {
+            padding: 12px 8px;
+            font-size: 0.98em;
+            gap: 10px;
+        }
+        .responsive-form {
+            padding: 16px 6px;
+            max-width: 100%;
+        }
+        .responsive-input {
+            font-size: 1em;
+            padding: 8px 8px;
+            width: 99%;
+        }
+        .responsive-submit-btn {
+            font-size: 1em;
+            padding: 10px 18px;
+        }
+        .responsive-result {
+            font-size: 1em;
+        }
+    }
+    </style>
+    <script>
+        // Cooldown state
+        let lastSubmitTime = 0;
+        const cooldownMs = 3000; // 3 seconds
+
+        // Correct answers list
+        let correctList = [];
+
+        document.getElementById('exerciseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const now = Date.now();
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (now - lastSubmitTime < cooldownMs) {
+                document.getElementById('exerciseResult').innerHTML =
+                    `<span style="color:#e53935;">Та түр хүлээнэ үү...</span>`;
+                return;
+            }
+            lastSubmitTime = now;
+            submitBtn.disabled = true;
+            setTimeout(() => submitBtn.disabled = false, cooldownMs);
+
+            const form = document.getElementById('exerciseForm');
+            const answers = [
+                form.elements.q1.value.trim().toLowerCase(),
+                form.elements.q2.value.trim().toLowerCase(),
+                form.elements.q3.value.trim().toLowerCase()
+            ];
+            let score = 0;
+            let feedback = [];
+            let examples = [
+                'Жишээ: Welcome! Do you want to learn English?',
+                'Жишээ: Thank you for your help.',
+                'Жишээ: I want to learn this lesson.'
+            ];
+
+            // 1-р дасгал
+            const correct1 = [
+                "welcome! do you want to learn english?",
+                "welcome! would you like to learn english?",
+                "welcome. do you want to learn english?",
+                "welcome. would you like to learn english?"
+            ];
+            if (correct1.some(c => answers[0] === c)) {
+                score++;
+                feedback.push('1-р дасгал: ✅');
+                if (!correctList.includes(answers[0])) correctList.push(answers[0]);
+            } else {
+                // Partial match improvement
+                if (
+                    answers[0].includes('welcome') &&
+                    (answers[0].includes('learn english') || answers[0].includes('english'))
+                ) {
+                    feedback.push('1-р дасгал: ⚠️ Хариулт ойролцоо байна.<br>' + examples[0]);
+                } else {
+                    feedback.push('1-р дасгал: ❌<br>' + examples[0]);
+                }
+            }
+
+            // 2-р дасгал
+            if (
+                answers[1].includes('thank you') &&
+                answers[1].length > 'thank you'.length
+            ) {
+                score++;
+                feedback.push('2-р дасгал: ✅');
+                if (!correctList.includes(answers[1])) correctList.push(answers[1]);
+            } else {
+                // Partial match improvement
+                if (answers[1].includes('thank you')) {
+                    feedback.push('2-р дасгал: ⚠️ "Thank you" орсон ч өгүүлбэр бүрэн биш байна.<br>' + examples[1]);
+                } else {
+                    feedback.push('2-р дасгал: ❌<br>' + examples[1]);
+                }
+            }
+
+            // 3-р дасгал
+            if (
+                answers[2].includes('learn') &&
+                answers[2].includes('lesson') &&
+                answers[2].split(' ').length > 3
+            ) {
+                score++;
+                feedback.push('3-р дасгал: ✅');
+                if (!correctList.includes(answers[2])) correctList.push(answers[2]);
+            } else {
+                // Partial match improvement
+                if (answers[2].includes('learn') || answers[2].includes('lesson')) {
+                    feedback.push('3-р дасгал: ⚠️ "learn" болон "lesson" үгс орсон ч өгүүлбэр бүрэн биш байна.<br>' + examples[2]);
+                } else {
+                    feedback.push('3-р дасгал: ❌<br>' + examples[2]);
+                }
+            }
+
+            let correctHtml = '';
+            if (correctList.length > 0) {
+                // Show correct answers in the order they were answered in this submission
+                correctHtml = '<br><span style="color:#388e3c;">Зөв хариултууд:</span><ul style="margin:8px 0 0 18px;">' +
+                    answers.filter(a => correctList.includes(a) && a !== '').map(a => `<li>${a}</li>`).join('') +
+                    '</ul>';
+            }
+
+            document.getElementById('exerciseResult').innerHTML =
+                `Таны оноо: ${score}/3<br>` + feedback.join('<br>') + correctHtml;
+        });
+    </script>
+    <div class="lesson-board">
+        <div class="lesson-board-header">
+            <h3>Дараагийн хичээл</h3>
+        </div>
+        <div class="lesson-board-content">
+            <div class="lesson-links"></div>
+                <div class="lesson-link">
+                    <span class="lesson-number">2</span>
+                    <span class="lesson-title">Хичээл 2:</span>
+                    <a href="lesson2.html" class="lesson-link-a">Англи өгүүлбэр</a>
+                </div>
+                <div class="lesson-link">
+                    <span class="lesson-number">3</span>
+                    <span class="lesson-title">Хичээл 3:</span>
+                    <a href="lesson3.html" class="lesson-link-a">Англи өгүүлбэр</a>
+                </div>
+            </div>
+            <a href="learn.html" class="lesson-board-back-btn">БУЦАХ</a>
+        </div>
+    </div>
+    <style>
+    .lesson-board {
+        margin-top: 38px;
+        padding: 28px 32px;
+        background: linear-gradient(120deg, #e0f7fa 60%, #c8e6c9 100%);
+        border-radius: 18px;
+        box-shadow: 0 4px 18px rgba(56,142,60,0.10), 0 0 0 4px #0cc48622;
+        max-width: 600px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        border: 2px solid #0cc486;
+    }
+    .lesson-board-header {
+        background: #0cc486;
+        color: #fff;
+        padding: 12px 0;
+        border-radius: 12px 12px 0 0;
+        text-align: center;
+        font-size: 1.25em;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        margin-bottom: 18px;
+        box-shadow: 0 2px 8px rgba(12,196,134,0.08);
+    }
+    .lesson-board-content {
+        padding: 0 8px;
+    }
+    .lesson-links {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+    .lesson-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 1px 6px rgba(56,142,60,0.07);
+        padding: 10px 16px;
+        font-size: 1.08em;
+        transition: box-shadow 0.2s;
+    }
+    .lesson-link:hover {
+        box-shadow: 0 4px 14px rgba(67,160,71,0.13);
+    }
+    .lesson-number {
+        background: #0cc486;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.08em;
+        margin-right: 6px;
+        box-shadow: 0 1px 4px rgba(12,196,134,0.10);
+    }
+    .lesson-title {
+        color: #388e3c;
+        font-weight: 500;
+        margin-right: 6px;
+    }
+    .lesson-link-a {
+        color: #0cc486;
+        font-weight: bold;
+        text-decoration: underline;
+        transition: color 0.2s;
+    }
+    .lesson-link-a:hover {
+        color: #388e3c;
+    }
+    .lesson-board-back-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 12px 36px;
+        background: linear-gradient(90deg, #43a047 60%, #81c784 100%);
+        color: #fff;
+        border-radius: 30px;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(67,160,71,0.18);
+        text-decoration: none;
+        font-size: 1.08em;
+        letter-spacing: 0.5px;
+        transition: background 0.3s, box-shadow 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+    .lesson-board-back-btn:hover {
+        background: linear-gradient(90deg,#388e3c 60%,#66bb6a 100%);
+        box-shadow: 0 4px 12px rgba(67,160,71,0.25);
+    }
+    @media (max-width: 600px) {
+        .lesson-board {
+            padding: 14px 4px;
+            max-width: 100%;
+            border-radius: 12px;
+        }
+        .lesson-board-header {
+            font-size: 1.08em;
+            padding: 8px 0;
+            border-radius: 8px 8px 0 0;
+        }
+        .lesson-link {
+            font-size: 1em;
+            padding: 8px 8px;
+        }
+        .lesson-number {
+            width: 26px;
+            height: 26px;
+            font-size: 0.98em;
+        }
+        .lesson-board-back-btn {
+            font-size: 1em;
+            padding: 10px 18px;
+        }
+    }
+    </style>
+</body>
+</html>    <script>
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'en-US';
+                window.speechSynthesis.speak(utter);
+            } else {
+                alert('Voice feature is not supported in your browser.');
+            }
+        }
+    </script>
+</body>
+</html>

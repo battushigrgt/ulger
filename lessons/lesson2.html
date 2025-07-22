@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>хичээл 2</title>
+     <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <!-- Auth logic -->
+  <script src="../auth.js"></script>
+</head>
+<body>
+    <h1>Хичээл 2: Англи үгс <style>h1 { color: #0cc486; }</style></h1>
+    <p style="font-size: 1.22em; color: #1b5e20; background: linear-gradient(90deg, #c8e6c9 60%, #a5d6a7 100%); padding: 16px 24px; border-radius: 14px; box-shadow: 0 2px 10px rgba(56,142,60,0.12); margin-bottom: 22px; font-weight: bold; letter-spacing: 0.5px;">
+        Стандарт үгсийг ашиглан яриа өрнүүлэхэд тань туслах болно.
+    </p>
+    <table style="width:100%; border-collapse: collapse; margin: 18px 0;">
+        <thead>
+            <tr style="background: #e0f7fa;">
+                <th style="padding: 8px; border: 1px solid #b2dfdb;">Монгол</th>
+                <th style="padding: 8px; border: 1px solid #b2dfdb;">Англи</th>
+                <th style="padding: 8px; border: 1px solid #b2dfdb;">Дуудах</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Заавар</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Instruction</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Instruction')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr style="background: #f1f8e9;">
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Хүн байна уу?</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Is anyone there?</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Is anyone there?')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Таны төрөлх хэл юу вэ?</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">What is your native language?</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('What is your native language?')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr style="background: #f1f8e9;">
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Багш</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Teacher</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Teacher')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Сурагч</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Student</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Student')">🔊 Voice</button>
+                </td>
+            </tr>
+            <tr style="background: #f1f8e9;">
+                <td style="padding: 10px; border: 1px solid #b2dfdb; font-weight: 500;">Ажилчин</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb;">Worker</td>
+                <td style="padding: 10px; border: 1px solid #b2dfdb; text-align: center;">
+                    <button style="background: #0cc486; color: #fff; border: none; border-radius: 20px; padding: 6px 18px; cursor: pointer; font-size: 16px; box-shadow: 0 1px 4px rgba(12,196,134,0.08);" onclick="speak('Worker')">🔊 Voice</button>
+                </td>
+            </tr></td></tr>
+        </tbody>
+    </table>
+    <div class="responsive-section"></div>
+        <h2 class="responsive-title">Үгсийг өгүүлбэрт хэрэглэх жишээ</h2>
+        <ul class="responsive-list">
+            <li class="responsive-list-item">
+                <div>
+                    <strong class="responsive-strong">teacher</strong> is in the classroom. <span class="responsive-translation">— <em>Багш ангид байна</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('teacher is in the classroom.')">🔊 Voice</button>
+            </li>
+            <li class="responsive-list-item alt">
+                <div>
+                    What <strong class="responsive-strong">language</strong> are you learning?  <span class="responsive-translation">— <em>Та ямар хэл сурч байгаагаа хэлээрэй</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('What language are you learning?')">🔊 Voice</button>
+            </li>
+            <li class="responsive-list-item">
+                <div>
+                   What <strong class="responsive-strong">work</strong> are you doing?  <span class="responsive-translation">— <em>Та ямар ажил хийж байна вэ?</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('What work are you doing?')">🔊 Voice</button>
+            </li>
+            <li class="responsive-list-item alt">
+                <div>
+                   I want to receive <strong class="responsive-strong">instruction.</strong><span class="responsive-translation">— <em>Би заавар авхыг хүсч байна</em></span>
+                </div>
+                <button class="responsive-voice-btn" onclick="speak('I want to receive instruction.')">🔊 Voice</button>
+            </li>
+        </ul>
+        <p class="responsive-note">Шинэ үгсийг өгүүлбэрт оруулахдаа тухайн нөхцөл, харилцан ярианы утга, хэрэглээний орчинд тохируулан ашиглана.</p>
+        <h2 class="responsive-title">Дасгал</h2>
+        <form id="exerciseForm" class="responsive-form" autocomplete="off">
+            <ol class="responsive-ol">
+                <li class="responsive-li">
+                    <span class="responsive-label">“Instruction” үгийг ашиглан англи өгүүлбэр зохио.</span><br>
+                    <input type="text" name="q1" class="responsive-input" placeholder="Жишээ: Зааврыг дагана уу.( Ангилаар хариул )">
+                </li>
+                <li class="responsive-li">
+                    <span class="responsive-label">“Is anyone there?” асуултыг өөрийн нөхцөлд тохируулан хэрэглэ.</span><br>
+                    <input type="text" name="q2" class="responsive-input" placeholder="Жишээ: Хүн байна уу? тусламж хэрэгтэй байна.(Ангилаар хариул )">
+                </li>
+                <li class="responsive-li">
+                    <span class="responsive-label">“Teacher” болон “Student” үгсийг нэг өгүүлбэрт оруул.</span><br>
+                    <input type="text" name="q3" class="responsive-input" placeholder="Жишээ: Багш сурагчтай ярьж байна.( Ангилаар хариул )">
+                </li>
+            </ol>
+            <button type="submit" class="responsive-submit-btn"
+                onmouseover="this.style.background='linear-gradient(90deg,#388e3c 60%,#66bb6a 100%)'; this.style.boxShadow='0 4px 14px rgba(67,160,71,0.18)';"
+                onmouseout="this.style.background='linear-gradient(90deg,#0cc486 60%,#43a047 100%)'; this.style.boxShadow='0 2px 8px rgba(12,196,134,0.12)';"
+            >Шалгах</button>
+            <div id="exerciseResult" class="responsive-result"></div>
+        </form>
+    </div>
+    <style>
+    .responsive-section {
+        margin: 32px auto 0 auto;
+        max-width: 650px;
+        background: linear-gradient(120deg, #f1f8e9 60%, #e0f7fa 100%);
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(56,142,60,0.08);
+        padding: 28px 24px;
+    }
+    .responsive-title {
+        color: #0cc486;
+        font-size: 1.35em;
+        font-weight: bold;
+        margin-bottom: 18px;
+        letter-spacing: 0.5px;
+    }
+    .responsive-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 22px;
+    }
+    .responsive-list-item {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 1px 6px rgba(56,142,60,0.07);
+        padding: 12px 18px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .responsive-list-item.alt {
+        background: #e0f7fa;
+    }
+    .responsive-strong {
+        color: #388e3c;
+        font-weight: bold;
+    }
+    .responsive-translation {
+        color: #388e3c;
+        margin-left: 10px;
+    }
+    .responsive-voice-btn {
+        background: #0cc486;
+        color: #fff;
+        border: none;
+        border-radius: 18px;
+        padding: 6px 16px;
+        cursor: pointer;
+        font-size: 15px;
+        box-shadow: 0 1px 4px rgba(12,196,134,0.08);
+        transition: background 0.2s;
+    }
+    .responsive-voice-btn:hover {
+        background: #388e3c;
+    }
+    .responsive-note {
+        background: #c8e6c9;
+        color: #1b5e20;
+        padding: 10px 18px;
+        border-radius: 10px;
+        margin-bottom: 24px;
+        font-size: 1.08em;
+    }
+    .responsive-form {
+        margin-top: 12px;
+    }
+    .responsive-ol {
+        padding-left: 18px;
+        margin-bottom: 18px;
+    }
+    .responsive-li {
+        margin-bottom: 16px;
+    }
+    .responsive-label {
+        color: #388e3c;
+        font-weight: 500;
+    }
+    .responsive-input {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #b2dfdb;
+        margin-top: 6px;
+        font-size: 1em;
+        box-sizing: border-box;
+        transition: border 0.2s;
+    }
+    .responsive-input:focus {
+        border: 1.5px solid #0cc486;
+        outline: none;
+    }
+    .responsive-submit-btn {
+        margin-top: 10px;
+        padding: 12px 36px;
+        background: linear-gradient(90deg,#0cc486 60%,#43a047 100%);
+        color: #fff;
+        border-radius: 30px;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(12,196,134,0.12);
+        text-decoration: none;
+        font-size: 1.08em;
+        letter-spacing: 0.5px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s, box-shadow 0.3s;
+    }
+    .responsive-result {
+        margin-top: 16px;
+        font-size: 1.08em;
+    }
+    @media (max-width: 700px) {
+        .responsive-section {
+            padding: 12px 4px;
+            border-radius: 10px;
+            max-width: 100%;
+        }
+        .responsive-title {
+            font-size: 1.08em;
+            margin-bottom: 12px;
+        }
+        .responsive-list-item {
+            font-size: 0.98em;
+            padding: 8px 8px;
+        }
+        .responsive-note {
+            font-size: 1em;
+            padding: 8px 8px;
+        }
+        .responsive-input {
+            font-size: 0.98em;
+            padding: 7px 8px;
+        }
+        .responsive-submit-btn {
+            font-size: 1em;
+            padding: 10px 18px;
+        }
+    }
+    </style>
+    <script>
+    let lastSubmitTime = 0;
+    const cooldownMs = 3000;
+    let correctList = [];
+
+    document.getElementById('exerciseForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const now = Date.now();
+        const submitBtn = this.querySelector('button[type="submit"]');
+        if (now - lastSubmitTime < cooldownMs) {
+            document.getElementById('exerciseResult').innerHTML =
+                `<span style="color:#e53935;">Та түр хүлээнэ үү...</span>`;
+            return;
+        }
+        lastSubmitTime = now;
+        submitBtn.disabled = true;
+        setTimeout(() => submitBtn.disabled = false, cooldownMs);
+
+        const form = document.getElementById('exerciseForm');
+        const answers = [
+            form.elements.q1.value.trim().toLowerCase(),
+            form.elements.q2.value.trim().toLowerCase(),
+            form.elements.q3.value.trim().toLowerCase()
+        ];
+        let score = 0;
+        let feedback = [];
+        let examples = [
+            'Жишээ: Please follow the instruction.',
+            'Жишээ: Is anyone there? I need help.',
+            'Жишээ: The teacher is talking to the student.'
+        ];
+
+        // 1-р дасгал
+        if (
+            answers[0].includes('instruction') &&
+            answers[0].split(' ').length > 3
+        ) {
+            score++;
+            feedback.push('1-р дасгал: ✅');
+            if (!correctList.includes(answers[0])) correctList.push(answers[0]);
+        } else if (answers[0].includes('instruction')) {
+            feedback.push('1-р дасгал: ⚠️ "Instruction" орсон ч өгүүлбэр бүрэн биш байна.<br>' + examples[0]);
+        } else {
+            feedback.push('1-р дасгал: ❌<br>' + examples[0]);
+        }
+
+        // 2-р дасгал
+        if (
+            answers[1].includes('is anyone there') &&
+            answers[1].split(' ').length > 3
+        ) {
+            score++;
+            feedback.push('2-р дасгал: ✅');
+            if (!correctList.includes(answers[1])) correctList.push(answers[1]);
+        } else if (answers[1].includes('is anyone there')) {
+            feedback.push('2-р дасгал: ⚠️ "Is anyone there?" орсон ч өгүүлбэр бүрэн биш байна.<br>' + examples[1]);
+        } else {
+            feedback.push('2-р дасгал: ❌<br>' + examples[1]);
+        }
+
+        // 3-р дасгал
+        if (
+            answers[2].includes('teacher') &&
+            answers[2].includes('student') &&
+            answers[2].split(' ').length > 3
+        ) {
+            score++;
+            feedback.push('3-р дасгал: ✅');
+            if (!correctList.includes(answers[2])) correctList.push(answers[2]);
+        } else if (answers[2].includes('teacher') || answers[2].includes('student')) {
+            feedback.push('3-р дасгал: ⚠️ "Teacher" болон "Student" үгс орсон ч өгүүлбэр бүрэн биш байна.<br>' + examples[2]);
+        } else {
+            feedback.push('3-р дасгал: ❌<br>' + examples[2]);
+        }
+
+        let correctHtml = '';
+        if (correctList.length > 0) {
+            correctHtml = '<br><span style="color:#388e3c;">Зөв хариултууд:</span><ul style="margin:8px 0 0 18px;">' +
+                answers.filter(a => correctList.includes(a) && a !== '').map(a => `<li>${a}</li>`).join('') +
+                '</ul>';
+        }
+
+        document.getElementById('exerciseResult').innerHTML =
+            `Таны оноо: ${score}/3<br>` + feedback.join('<br>') + correctHtml;
+    });
+    </script>
+    <div class="lesson-board">
+        <div class="lesson-board-header">
+            <h3>Дараагийн хичээл</h3>
+        </div>
+        <div class="lesson-board-content">
+            <div class="lesson-links"></div>
+                <div class="lesson-link">
+                    <span class="lesson-number">1</span>
+                    <span class="lesson-title">Хичээл 3:</span>
+                    <a href="lesson3.html" class="lesson-link-a">Англи өгүүлбэр</a>
+                </div>
+                <div class="lesson-link">
+                    <span class="lesson-number">2</span>
+                    <span class="lesson-title">Хичээл 4:</span>
+                    <a href="#" class="lesson-link-a">Англи өгүүлбэр</a>
+                </div>
+            </div>
+            <a href="learn.html" class="lesson-board-back-btn">БУЦАХ</a>
+        </div>
+    </div>
+    <style>
+    .lesson-board {
+        margin-top: 38px;
+        padding: 28px 32px;
+        background: linear-gradient(120deg, #e0f7fa 60%, #c8e6c9 100%);
+        border-radius: 18px;
+        box-shadow: 0 4px 18px rgba(56,142,60,0.10), 0 0 0 4px #0cc48622;
+        max-width: 600px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        border: 2px solid #0cc486;
+    }
+    .lesson-board-header {
+        background: #0cc486;
+        color: #fff;
+        padding: 12px 0;
+        border-radius: 12px 12px 0 0;
+        text-align: center;
+        font-size: 1.25em;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        margin-bottom: 18px;
+        box-shadow: 0 2px 8px rgba(12,196,134,0.08);
+    }
+    .lesson-board-content {
+        padding: 0 8px;
+    }
+    .lesson-links {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+    .lesson-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 1px 6px rgba(56,142,60,0.07);
+        padding: 10px 16px;
+        font-size: 1.08em;
+        transition: box-shadow 0.2s;
+    }
+    .lesson-link:hover {
+        box-shadow: 0 4px 14px rgba(67,160,71,0.13);
+    }
+    .lesson-number {
+        background: #0cc486;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.08em;
+        margin-right: 6px;
+        box-shadow: 0 1px 4px rgba(12,196,134,0.10);
+    }
+    .lesson-title {
+        color: #388e3c;
+        font-weight: 500;
+        margin-right: 6px;
+    }
+    .lesson-link-a {
+        color: #0cc486;
+        font-weight: bold;
+        text-decoration: underline;
+        transition: color 0.2s;
+    }
+    .lesson-link-a:hover {
+        color: #388e3c;
+    }
+    .lesson-board-back-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 12px 36px;
+        background: linear-gradient(90deg, #43a047 60%, #81c784 100%);
+        color: #fff;
+        border-radius: 30px;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(67,160,71,0.18);
+        text-decoration: none;
+        font-size: 1.08em;
+        letter-spacing: 0.5px;
+        transition: background 0.3s, box-shadow 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+    .lesson-board-back-btn:hover {
+        background: linear-gradient(90deg,#388e3c 60%,#66bb6a 100%);
+        box-shadow: 0 4px 12px rgba(67,160,71,0.25);
+    }
+    @media (max-width: 600px) {
+        .lesson-board {
+            padding: 14px 4px;
+            max-width: 100%;
+            border-radius: 12px;
+        }
+        .lesson-board-header {
+            font-size: 1.08em;
+            padding: 8px 0;
+            border-radius: 8px 8px 0 0;
+        }
+        .lesson-link {
+            font-size: 1em;
+            padding: 8px 8px;
+        }
+        .lesson-number {
+            width: 26px;
+            height: 26px;
+            font-size: 0.98em;
+        }
+        .lesson-board-back-btn {
+            font-size: 1em;
+            padding: 10px 18px;
+        }
+    }
+    </style>
+</body>
+</html>    <script>
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'en-US';
+                window.speechSynthesis.speak(utter);
+            } else {
+                alert('Voice feature is not supported in your browser.');
+            }
+        }
+    </script>
+</body>
+</html>

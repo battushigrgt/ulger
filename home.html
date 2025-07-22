@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RGT Англи хэл сурах</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      text-align: center;
+      padding: 20px;
+    }
+
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #388E3C;
+    }
+
+    .hidden {
+      display: none;
+    }
+      .card {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .card h2 {
+        color: #4CAF50;
+        margin-bottom: 16px;
+      }
+
+      .card p {
+        font-size: 1.1em;
+        color: #555;
+        margin-bottom: 24px;
+      }
+
+      .start-button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+      }
+
+      .start-button:hover {
+        background-color: #388E3C;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+  </style>
+</head>
+<body>
+  <div class="container" id="auth-container">
+    <h1>Нэвтрэх</h1>
+    <input type="email" id="email" placeholder="Имэйл хаяг" />
+    <input type="password" id="password" placeholder="Нууц үг" />
+    <button onclick="login()">Нэвтрэх</button>
+    <button onclick="signup()">Бүртгүүлэх</button>
+  </div>
+
+  <div class="container hidden" id="welcome">
+  <div class="card">
+    <h2>🎉 Та амжилттай нэвтэрлээ!</h2>
+    <p>Одоо хичээлээ үргэлжлүүлж сурахад бэлэн байна.</p>
+    <a href="lessons/learn.html" class="start-button">→ Сурч эхлэх</a>
+  </div>
+</div>
+
+
+  <script>
+    // Firebase-ийн тохиргоо (public key тул аюулгүй)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcQ4qCfrGuPJ9Nu7r9snQHM9_b7cp3ZzY",
+      authDomain: "rps-online-c6862.firebaseapp.com",
+      projectId: "rps-online-c6862",
+      storageBucket: "rps-online-c6862.appspot.com",
+      messagingSenderId: "879021175823",
+      appId: "1:879021175823:web:11f69fc2305a8a2d1a1f7a",
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      window.login = function () {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          alert("Имэйл болон нууц үгээ оруулна уу!");
+          return;
+        }
+
+        auth.signInWithEmailAndPassword(email, password)
+          .then(() => {
+            document.getElementById("auth-container").classList.add("hidden");
+            document.getElementById("welcome").classList.remove("hidden");
+          })
+          .catch(error => {
+            console.error(error);
+            alert("Нэвтрэхэд алдаа гарлаа: " + error.message);
+          });
+      };
+
+      window.signup = function () {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          alert("Бүртгүүлэхийн тулд имэйл болон нууц үгээ оруулна уу!");
+          return;
+        }
+
+        if (password.length < 6) {
+          alert("Нууц үг дор хаяж 6 тэмдэгт байх ёстой.");
+          return;
+        }
+
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(() => alert("🎉 Бүртгэл амжилттай. Нэвтрэх боломжтой!"))
+          .catch(error => {
+            console.error(error);
+            alert("Бүртгүүлэхэд алдаа гарлаа: " + error.message);
+          });
+      };
+    });
+        auth.onAuthStateChanged(user => {
+      if (user) {
+        // Хэрэглэгч автоматаар нэвтэрсэн бол
+        document.getElementById("auth-container").classList.add("hidden");
+        document.getElementById("welcome").classList.remove("hidden");
+      }
+    });
+
+  </script>
+</body>
+</html>

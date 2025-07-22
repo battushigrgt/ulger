@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Хайч Чулуу Даавуу - Онлайн</title>
+   <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <!-- Auth logic -->
+  <script src="../auth.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background: #f0f0f0;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 5em;
+      padding: 20px 40px;
+      margin: 15px;
+      cursor: pointer;
+      border-radius: 15px;
+      border: none;
+      background: #4caf50;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    #status {
+      font-size: 1.2em;
+      margin: 20px;
+      font-weight: bold;
+    }
+    #result {
+      margin-top: 25px;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    a.back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 30px;
+      background: #4caf50;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 Хайч Чулуу Даавуу - Онлайн</h1>
+  <div id="status">Тоглогч хайж байна...</div>
+
+  <div id="choices" style="display:none;">
+    <button data-choice="rock">🪨</button>
+    <button data-choice="paper">📄</button>
+    <button data-choice="scissors">✂️</button>
+  </div>
+
+  <div id="result"></div>
+
+  <a class="back-btn" href="/home.html">БУЦАХ</a>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // Firebase config - чи өөрийн config-оо энд оруул
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcQ4qCfrGuPJ9Nu7r9snQHM9_b7cp3ZzY",
+      authDomain: "rps-online-c6862.firebaseapp.com",
+      databaseURL: "https://rps-online-c6862-default-rtdb.firebaseio.com",
+      projectId: "rps-online-c6862",
+      storageBucket: "rps-online-c6862.firebasestorage.app",
+      messagingSenderId: "879021175823",
+      appId: "1:879021175823:web:11f69fc2305a8a2d1a1f7a",
+      measurementId: "G-LYPNQHNJJT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let playerId = Math.random().toString(36).slice(2, 10);
+    let gameId = null;
+    let isPlayer1 = false;
+
+    const statusEl = document.getElementById("status");
+    const choicesEl = document.getElementById("choices");
+    const resultEl = document.getElementById("result");
+
+    // Тоглогч хайх
+    async function findGame() {
+      const queueRef = ref(db, "queue");
+      let queueSnap = null;
+
+      // Нэгдсэн шалгах
+      queueSnap = await (await db).ref ? await (await db).ref(queueRef.path) : null;
+
+      const snapshot = await new Promise(resolve => onValue(queueRef, resolve, { onlyOnce: true }));
+
+      const queue = snapshot.val();
+
+      if (!queue) {
+        // Queue хоосон бол өөрийгөө нэмэх
+        const newQueueRef = push(queueRef);
+        await set(newQueueRef, { playerId });
+        isPlayer1 = true;
+
+        // Хүлээх: Хэн нэг ирэх хүртэл session үүсгэхгүй
+        statusEl.innerText = "Тоглогч хайж байна...";
+
+        // Хэн нэг орвол тоглоом үүсгэнэ
+        onValue(queueRef, async (snap) => {
+          const val = snap.val();
+          if (val && Object.keys(val).length >= 2) {
+            const players = Object.values(val).map(p => p.playerId);
+            if (players.includes(playerId)) {
+              // Session үүсгэх
+              await createGame(players);
+              remove(queueRef);
+            }
+          }
+        });
+      } else {
+        // Хоёр дахь тоглогч
+        const firstPlayerKey = Object.keys(queue)[0];
+        const firstPlayerId = queue[firstPlayerKey].playerId;
+
+        if (firstPlayerId === playerId) {
+          statusEl.innerText = "Тоглогч хайж байна...";
+          return;
+        }
+
+        // Өөрийгөө нэмнэ
+        const newQueueRef = push(queueRef);
+        await set(newQueueRef, { playerId });
+
+        // Тоглоом үүсгэнэ
+        const players = [firstPlayerId, playerId];
+        await createGame(players);
+
+        // Queue хоослох
+        remove(queueRef);
+      }
+    }
+
+    // Тоглоом үүсгэх
+    async function createGame(players) {
+      gameId = players.sort().join("_");
+      isPlayer1 = players[0] === playerId;
+
+      const gameRef = ref(db, "games/" + gameId);
+      await set(gameRef, {
+        players: {
+          [players[0]]: null,
+          [players[1]]: null
+        }
+      });
+
+      statusEl.innerText = "Тоглогч олдлоо! Сонголтоо хийгээрэй.";
+      choicesEl.style.display = "block";
+
+      // Тоглоомыг сонсох
+      onValue(gameRef, (snap) => {
+        const val = snap.val();
+        if (!val) return;
+        const p1Choice = val.players[players[0]];
+        const p2Choice = val.players[players[1]];
+
+        if (p1Choice && p2Choice) {
+          showResult(p1Choice, p2Choice);
+          remove(gameRef);
+        }
+      });
+    }
+
+    // Сонголт илгээх
+    async function sendChoice(choice) {
+      if (!gameId) return;
+      const gameRef = ref(db, "games/" + gameId + "/players/" + playerId);
+      await set(gameRef, choice);
+      statusEl.innerText = "Нөгөө тоглогчийн сонголтыг хүлээж байна...";
+      choicesEl.style.display = "none";
+    }
+
+    // Үр дүн харуулах
+    function showResult(p1Choice, p2Choice) {
+      const resultText = getResult(p1Choice, p2Choice);
+      const emojis = { rock: "🪨", paper: "📄", scissors: "✂️" };
+      statusEl.innerHTML = `Тоглоом дууслаа!<br>Тоглогч 1: ${emojis[p1Choice]} - Тоглогч 2: ${emojis[p2Choice]}`;
+      resultEl.innerText = resultText;
+    }
+
+    // Ялагчийг тодорхойлох
+    function getResult(p1, p2) {
+      if (p1 === p2) return "Тэнцсэн";
+      if (
+        (p1 === "scissors" && p2 === "paper") ||
+        (p1 === "rock" && p2 === "scissors") ||
+        (p1 === "paper" && p2 === "rock")
+      ) return isPlayer1 ? "Чи хожлоо!" : "Чи хожигдлоо!";
+      else return isPlayer1 ? "Чи хожигдлоо!" : "Чи хожлоо!";
+    }
+
+    // Тоглоом эхлүүлэх товчлууруудыг холбох
+    choicesEl.querySelectorAll("button").forEach((btn) => {
+      btn.addEventListener("click", () => sendChoice(btn.getAttribute("data-choice")));
+    });
+
+    // Хайлт эхлүүлэх
+    findGame();
+  </script>
+</body>
+</html>

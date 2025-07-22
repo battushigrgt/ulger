@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хичээлүүд</title>
+     <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <!-- Auth logic -->
+  <script src="../auth.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Montserrat', sans-serif;
+            background: linear-gradient(120deg, #e0f7fa 0%, #f4f4f4 100%);
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #fff;
+            background: linear-gradient(90deg, #4CAF50 60%, #81C784 100%);
+            padding: 16px 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(76,175,80,0.12);
+            font-size: 2.2em;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 24px;
+            animation: fadeInDown 1s;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        p {
+            color: #333;
+            font-size: 1.15em;
+            margin-bottom: 18px;
+            text-align: center;
+            animation: fadeIn 1.4s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0;}
+            to { opacity: 1;}
+        }
+        ul {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(76,175,80,0.08);
+            padding: 24px 32px;
+            max-width: 400px;
+            margin: 0 auto 32px auto;
+            list-style: none;
+            animation: slideUp 1.6s;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        ul li {
+            margin-bottom: 18px;
+            font-size: 1.1em;
+            position: relative;
+            padding-left: 24px;
+            animation: fadeInList 2s;
+        }
+        ul li:before {
+            content: "★";
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1em;
+            animation: starPop 3s;
+        }
+        @keyframes fadeInList {
+            from { opacity: 0; transform: translateX(-20px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+        @keyframes starPop {
+            0% { transform: scale(0.5); opacity: 0;}
+            60% { transform: scale(1.2); opacity: 1;}
+            100% { transform: scale(1); opacity: 1;}
+        }
+        a {
+            color: #388E3C;
+            font-weight: bold;
+            transition: color 0.2s, box-shadow 0.2s, transform 0.2s;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+        a:hover {
+            color: #ffffff;
+            background: linear-gradient(90deg, #4CAF50 60%, #81C784 100%);
+            box-shadow: 0 2px 8px rgba(76,175,80,0.15);
+            text-decoration: none;
+            transform: scale(1.08);
+        }
+        h2 {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(76,175,80,0.08);
+            padding: 24px 32px;
+            max-width: 400px;
+            margin: 0 auto 32px auto;
+            list-style: none;
+            animation: slideUp 2s;
+        }
+        .hello a:hover {
+            color: #8e4c38;
+            font-weight: bold;
+            transition: color 0.2s, box-shadow 0.2s, transform 0.2s;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin-bottom: 24px;">
+        <a href="/home.html" style="
+            display: inline-block;
+            padding: 10px 24px;
+            background: linear-gradient(90deg, #4CAF50 60%, #81C784 100%);
+            color: #fff;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(76,175,80,0.15);
+            text-decoration: none;
+            transition: background 0.3s;
+        ">БУЦАХ</a>
+    </div>
+    <h1>Англи хэлний хичээлүүд</h1>
+    <p>Энд та англи хэлний хичээлүүдийг олох болно.</p>
+    <ul>
+        <li><a href="lesson1.html">Хичээл 1: Англи үгс</a></li>
+        <li><a href="lesson2.html">Хичээл 2: Англи өгүүлбэр</a></li>
+        <li><a href="lesson3.html">Хичээл 3: Англи яриа</a></li>
+    </ul>
+    <h2><a class="hello" href="/mini games/minigame.html">🎮 Mini game</a></h2>
+    
+</body>
+</html>
